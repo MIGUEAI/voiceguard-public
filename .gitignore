@@ -1,0 +1,30 @@
+# Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# Ambientes virtuais
+venv/
+ENV/
+env/
+
+# Configuração de IDEs
+.vscode/
+.idea/
+
+# Ficheiros e bases de dados locais
+*.sqlite
+*.db
+instance/
+uploads/
+logs/
+*.log
+
+# Ficheiros de ambiente
+.env
+.env.*
+!.env.example
+
+# Sistema
+.DS_Store
