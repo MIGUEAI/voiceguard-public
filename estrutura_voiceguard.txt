@@ -1,0 +1,79 @@
+.
+├── __init__.py
+├── alembic.ini
+├── app.py
+├── config.py
+├── estrutura_projeto_atual.txt
+├── estrutura_voiceguard.txt
+├── extensions.py
+├── ficheiro_recebido.png
+├── ficheiro_teste.png
+├── init_db.py
+├── LICENSE
+├── logger.py
+├── Makefile
+├── migrations
+│   ├── env.py
+│   ├── README
+│   ├── script.py.mako
+│   └── versions
+│       ├── 1558487f1584_criar_tabelas_iniciais.py
+│       └── 25b5535abb2a_aumentar_tamanho_do_campo_password.py
+├── models
+│   ├── __init__.py
+│   ├── file.py
+│   └── user.py
+├── README.md
+├── requirements.txt
+├── routes
+│   ├── __init__.py
+│   ├── files.py
+│   ├── health.py
+│   └── users.py
+├── run_tests.sh
+├── run.sh
+├── services
+│   ├── __init__.py
+│   ├── file_service.py
+│   └── user_service.py
+├── static
+│   └── favicon.ico
+├── tests
+│   ├── test_auth_login.py
+│   ├── test_db_init.py
+│   └── test_user_model.py
+├── venv
+│   ├── bin
+│   │   ├── __pycache__
+│   │   ├── activate
+│   │   ├── activate.csh
+│   │   ├── activate.fish
+│   │   ├── Activate.ps1
+│   │   ├── alembic
+│   │   ├── dotenv
+│   │   ├── f2py
+│   │   ├── flask
+│   │   ├── fonttools
+│   │   ├── mako-render
+│   │   ├── numpy-config
+│   │   ├── pip
+│   │   ├── pip3
+│   │   ├── pip3.13
+│   │   ├── pyftmerge
+│   │   ├── pyftsubset
+│   │   ├── python -> python3.13
+│   │   ├── python3 -> python3.13
+│   │   ├── python3.13 -> /opt/homebrew/opt/python@3.13/bin/python3.13
+│   │   ├── ttx
+│   │   └── vba_extract.py
+│   ├── include
+│   │   ├── python3.13
+│   │   └── site
+│   ├── lib
+│   │   └── python3.13
+│   ├── pyvenv.cfg
+│   └── share
+│       └── man
+└── voiceguard.zip
+
+18 directories, 59 files

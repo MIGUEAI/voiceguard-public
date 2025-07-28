@@ -1,29 +1,28 @@
-version: '3.9'
-
 services:
   web:
     build:
-      context: .
+      context: ..
       dockerfile: infra/Dockerfile
     ports:
-      - "5000:5000"
+      - "5001:5000"
     volumes:
-      - .:/app
+      - ../:/app
     env_file:
-      - infra/.env.example
+      - .env.example
     depends_on:
       - db
+    restart: on-failure  # Reinício automático se o container falhar
 
   db:
     image: postgres:15
     environment:
-      POSTGRES_USER: voiceguard_user
-      POSTGRES_PASSWORD: voiceguard_pass
-      POSTGRES_DB: voiceguard_db
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+      POSTGRES_DB: voiceguard
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
 volumes:
   pgdata:

@@ -2,25 +2,25 @@ FROM python:3.13-slim
 
 WORKDIR /app
 
-# Instalar libmagic e dependências do sistema
+# Instala dependências do sistema
 RUN apt-get update && apt-get install -y \
     libmagic1 \
     file \
     && rm -rf /var/lib/apt/lists/*
 
-# Copiar script de entrada e dar permissões
+# Copia entrypoint e define permissões
 COPY infra/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Instalar dependências Python
+# Copia e instala dependências Python
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar todo o código do projeto
+# Copia todo o código do projeto
 COPY . .
 
-# Definir entrypoint
+# Define o entrypoint
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
-# Comando padrão
-CMD ["python3"]
+# Comando padrão: iniciar a aplicação Flask
+CMD ["python3", "app.py"]

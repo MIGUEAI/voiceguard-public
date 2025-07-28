@@ -1,3 +1,4 @@
+from sqlalchemy import Boolean
 # voiceguard/models/user.py
 
 from extensions import db
@@ -12,3 +13,8 @@ class User(db.Model):
     login_attempts = db.Column(db.Integer, default=0)
     two_factor_code = db.Column(db.String(6))
     two_factor_expiration = db.Column(db.DateTime)
+
+    two_factor_enabled = db.Column(Boolean, default=False, nullable=False)
+# ✅ Campo adicionado para suportar autenticação de dois fatores
+from sqlalchemy import Boolean
+

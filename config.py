@@ -1,3 +1,6 @@
+
+from sqlalchemy.orm import declarative_base
+Base = declarative_base()
 import os
 from datetime import timedelta
 from dotenv import load_dotenv
