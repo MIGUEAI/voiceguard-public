@@ -24,8 +24,9 @@ def login():
     if not user or not check_password_hash(user.password, password):
         return jsonify({"msg": "Credenciais inválidas"}), 401
 
-    access_token = create_access_token(identity=user.email)
-    refresh_token = create_refresh_token(identity=user.email)
+    # ✅ Corrigir para string
+    access_token = create_access_token(identity=str(user.id))
+    refresh_token = create_refresh_token(identity=str(user.id))
     return jsonify(access_token=access_token, refresh_token=refresh_token), 200
 
 @users_bp.route('/register', methods=['POST'])
@@ -51,15 +52,16 @@ def register():
 @users_bp.route('/refresh', methods=['POST'])
 @jwt_required(refresh=True)
 def refresh():
-    current_user_email = get_jwt_identity()
-    new_token = create_access_token(identity=current_user_email)
+    user_id = get_jwt_identity()
+    # ✅ Reafirmação de tipo string
+    new_token = create_access_token(identity=str(user_id))
     return jsonify(access_token=new_token), 200
 
 @users_bp.route('/me', methods=['GET'])
 @jwt_required()
 def get_profile():
-    identity = get_jwt_identity()
-    user = User.query.filter_by(email=identity).first()
+    user_id = get_jwt_identity()
+    user = User.query.get(int(user_id))  # ✅ converter de volta para int
 
     if not user:
         return jsonify({"msg": "Utilizador não encontrado"}), 404
@@ -73,9 +75,9 @@ def get_profile():
 
 @users_bp.route('/update', methods=['PUT'])
 @jwt_required()
-def update_user():
-    identity = get_jwt_identity()
-    user = User.query.filter_by(email=identity).first()
+def update_profile():
+    user_id = get_jwt_identity()
+    user = User.query.get(int(user_id))  # Garantir tipo int
 
     if not user:
         return jsonify({"msg": "Utilizador não encontrado"}), 404
@@ -85,14 +87,13 @@ def update_user():
     current_password = data.get("current_password")
     new_password = data.get("new_password")
 
-    # Validação de password atual (obrigatória para alterações sensíveis)
-    if new_password:
-        if not current_password or not check_password_hash(user.password, current_password):
-            return jsonify({"msg": "Password atual incorreta"}), 403
-        user.password = generate_password_hash(new_password)
-
     if new_name:
         user.name = new_name
+
+    if current_password and new_password:
+        if not check_password_hash(user.password, current_password):
+            return jsonify({"msg": "Password atual incorreta"}), 401
+        user.password = generate_password_hash(new_password)
 
     db.session.commit()
     return jsonify({"msg": "Dados atualizados com sucesso"}), 200
