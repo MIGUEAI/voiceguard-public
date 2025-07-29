@@ -1,0 +1,30 @@
+name: VoiceGuard Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-test  # espera CI terminar e passar (se o CI estiver no mesmo workflow, pode ser modificado)
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: 22
+          script: |
+            cd /caminho/absoluto/para/voiceguard
+            git pull origin main
+            source venv/bin/activate
+            pip install -r requirements.txt
+            # Exemplo: reiniciar serviço Flask/Gunicorn
+            sudo systemctl restart voiceguard.service
