@@ -19,7 +19,7 @@ app.config.from_object(DevelopmentConfig)
 db.init_app(app)
 
 with app.app_context():
-    email = "test_user@example.com"
+    email = "test_phone@example.com"  # Podes alterar o email aqui
     user = User.query.filter_by(email=email).first()
 
     if user:

@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import (
     create_access_token,
@@ -8,6 +10,8 @@ from flask_jwt_extended import (
 from werkzeug.security import generate_password_hash, check_password_hash
 from models.user import User
 from extensions import db
+from datetime import datetime, timedelta
+import random
 
 users_bp = Blueprint('users', __name__)
 
@@ -24,7 +28,6 @@ def login():
     if not user or not check_password_hash(user.password, password):
         return jsonify({"msg": "Credenciais inválidas"}), 401
 
-    # ✅ Corrigir para string
     access_token = create_access_token(identity=str(user.id))
     refresh_token = create_refresh_token(identity=str(user.id))
     return jsonify(access_token=access_token, refresh_token=refresh_token), 200
@@ -53,7 +56,6 @@ def register():
 @jwt_required(refresh=True)
 def refresh():
     user_id = get_jwt_identity()
-    # ✅ Reafirmação de tipo string
     new_token = create_access_token(identity=str(user_id))
     return jsonify(access_token=new_token), 200
 
@@ -61,8 +63,7 @@ def refresh():
 @jwt_required()
 def get_profile():
     user_id = get_jwt_identity()
-    user = User.query.get(int(user_id))  # ✅ converter de volta para int
-
+    user = User.query.get(int(user_id))
     if not user:
         return jsonify({"msg": "Utilizador não encontrado"}), 404
 
@@ -70,30 +71,54 @@ def get_profile():
         "id": user.id,
         "name": user.name,
         "email": user.email,
+        "phone_number": user.phone_number,
         "created_at": user.created_at.isoformat()
     }), 200
 
-@users_bp.route('/update', methods=['PUT'])
+@users_bp.route('/request-2fa', methods=['POST'])
 @jwt_required()
-def update_profile():
+def request_two_factor():
     user_id = get_jwt_identity()
-    user = User.query.get(int(user_id))  # Garantir tipo int
+    user = User.query.get(int(user_id))
+
+    if not user or not user.phone_number:
+        return jsonify({"msg": "Utilizador não encontrado ou sem número de telemóvel"}), 404
+
+    code = f"{random.randint(100000, 999999)}"
+    expiration = datetime.utcnow() + timedelta(minutes=5)
+
+    user.two_factor_code = code
+    user.two_factor_expiration = expiration
+    db.session.commit()
+
+    print(f"📲 Código 2FA enviado para {user.phone_number}: {code}")
+
+    return jsonify({"msg": "Código 2FA enviado por SMS"}), 200
+
+@users_bp.route('/verify-2fa', methods=['POST'])
+@jwt_required()
+def verify_two_factor():
+    user_id = get_jwt_identity()
+    user = User.query.get(int(user_id))
 
     if not user:
         return jsonify({"msg": "Utilizador não encontrado"}), 404
 
     data = request.get_json()
-    new_name = data.get("name")
-    current_password = data.get("current_password")
-    new_password = data.get("new_password")
+    code = data.get("code")
 
-    if new_name:
-        user.name = new_name
+    if not code:
+        return jsonify({"msg": "Código é obrigatório"}), 400
 
-    if current_password and new_password:
-        if not check_password_hash(user.password, current_password):
-            return jsonify({"msg": "Password atual incorreta"}), 401
-        user.password = generate_password_hash(new_password)
+    if user.two_factor_code != code:
+        return jsonify({"msg": "Código inválido"}), 401
 
+    if datetime.utcnow() > user.two_factor_expiration:
+        return jsonify({"msg": "Código expirado"}), 401
+
+    user.two_factor_code = None
+    user.two_factor_expiration = None
+    user.two_factor_enabled = True
     db.session.commit()
-    return jsonify({"msg": "Dados atualizados com sucesso"}), 200
+
+    return jsonify({"msg": "2FA verificado com sucesso"}), 200
