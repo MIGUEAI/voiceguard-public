@@ -29,18 +29,56 @@
 
 ### 🛡️ Segurança
 
-- Nenhuma variável sensível é exposta diretamente.
-- Os scripts de CI não acedem à base de dados real no runner GitHub.
+- Nenhuma variável sensível é exposta diretamente.  
+- Os scripts de CI não acedem à base de dados real no runner GitHub.  
 - Recomenda-se usar [GitHub Secrets](https://github.com/MIGUEAI/voiceguard/settings/secrets/actions) para futuras credenciais.
 
 ---
 
 ### 📁 Artefactos de Backup
 
-- Os ficheiros `.dump` gerados pelo CI são guardados como artefactos:
-  - `voiceguard-backups` → via `backup.yml`
-  - `voiceguard-backup`  → via `ci_backup.yml`
+- Os ficheiros `.dump` gerados pelo CI são guardados como artefactos:  
+  - `voiceguard-backups` → via `backup.yml`  
+  - `voiceguard-backup`  → via `ci_backup.yml`  
 
 Podes descarregá-los diretamente no final de cada execução CI.
 
 ---
+
+### 🔐 Autenticação com Dois Fatores (2FA) via Telemóvel
+
+---
+
+#### ✅ Fluxo Completo de Login com 2FA
+
+1. **POST /users/login**  
+   → Submete email e password  
+   → Recebe token JWT de acesso e refresh
+
+2. **POST /users/request-2fa**  
+   → Autenticado com JWT  
+   → Código 2FA é enviado para o número de telemóvel associado
+
+3. **POST /users/verify-2fa**  
+   → Envia código recebido por SMS  
+   → Confirma e ativa o 2FA na conta do utilizador
+
+---
+
+#### 🧪 Como testar 2FA em ambiente de desenvolvimento
+
+- Use os scripts disponibilizados no diretório `/scripts` para criar utilizadores com número de telemóvel.  
+- O envio do código 2FA é simulado via print no terminal da aplicação para testes locais.  
+- Execute os endpoints `/users/request-2fa` e `/users/verify-2fa` conforme o fluxo.
+
+---
+
+#### 📄 Documentação e Relatórios Técnicos
+
+- Relatório técnico detalhado disponível em `/docs/Relatorio_Integracao_2FA.md`.  
+- Inclui segurança, migrações, scripts usados, ponto de restauro e recomendações futuras.
+
+---
+
+*Documento atualizado automaticamente em 2025-07-29 pelo sistema de integração VoiceGuard.*
+
