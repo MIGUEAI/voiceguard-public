@@ -1,0 +1,32 @@
+name: Validar YAML Workflows
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate-yaml:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Configurar Python 3.13
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.13
+
+      - name: Instalar dependências
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install pyyaml
+
+      - name: Executar validação dos YAML
+        run: |
+          source venv/bin/activate
+          python validate_yaml.py
