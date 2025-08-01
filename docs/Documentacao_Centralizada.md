@@ -1,3 +1,7 @@
+# Documentação Centralizada VoiceGuard
+
+## Histórico de Relatórios
+
 # Documentação Centralizada do Projeto VoiceGuard
 
 ---
@@ -74,3 +78,4 @@ Este projeto segue rigorosamente as regras obrigatórias:
 ---
 
 *Documento gerado automaticamente em 2025-07-31 por sistema VoiceGuard.*
+- [2025-08-01](Documentacao_Centralizada_2025-08-01.md)
