@@ -1,0 +1,5 @@
+total 24
+drwxr-xr-x  5 zmiguel  staff   160 29 Jul 11:41 __pycache__
+-rw-r--r--  1 zmiguel  staff   846 22 Jul 20:19 4e60077d4731_adiciona_campo_two_factor_enabled_ao_.py
+-rw-r--r--  1 zmiguel  staff  1953 29 Jul 11:41 51bc8ef54c2c_adiciona_campo_phone_number_ao_modelo_.py
+-rw-r--r--  1 zmiguel  staff  1804 22 Jul 20:00 ad96ec1bde71_nova_migração_limpa_da_tabela_uploaded_.py

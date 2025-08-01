@@ -1,0 +1,179 @@
+/Users/zmiguel/Projetos/voiceguard
+├── __init__.py
+├── __pycache__
+│   ├── __init__.cpython-313.pyc
+│   ├── app.cpython-313.pyc
+│   ├── config.cpython-313.pyc
+│   ├── extensions.cpython-313.pyc
+│   ├── logger.cpython-313.pyc
+│   └── storage.cpython-313.pyc
+├── _backup_migrations
+│   ├── __pycache__
+│   │   ├── 9ece89d0e9dd_rollback_file_hash_de_uploaded_file.cpython-313.pyc
+│   │   └── e3fd3bfa2a4e_adiciona_coluna_file_hash_a_uploadedfile.cpython-313.pyc
+│   ├── 9ece89d0e9dd_rollback_file_hash_de_uploaded_file.py
+│   ├── e3fd3bfa2a4e_adiciona_coluna_file_hash_a_uploadedfile.py
+│   └── uploaded_file_conflict_backup.py
+├── _checkpoint_progresso.txt
+├── alembic_current.txt
+├── alembic.ini
+├── app.py
+├── backups
+├── config.py
+├── diagnostics
+│   ├── backup_voiceguard.dump
+│   ├── check_db_connection.py
+│   ├── check_env.py
+│   ├── check_restore.py
+│   ├── check_user_persisted.py
+│   ├── db_connection_test.py
+│   └── log_test.py
+├── Dockerfile
+├── docs
+│   └── Relatorio_Integracao_2FA.md
+├── estrutura_projeto_atual.txt
+├── estrutura_voiceguard.txt
+├── exemplos
+│   ├── audio.m4a
+│   └── audio.mp3
+├── extensions.py
+├── ficheiro_recebido.png
+├── ficheiro_teste.png
+├── infra
+│   ├── docker-compose.yml
+│   ├── Dockerfile
+│   ├── entrypoint.sh
+│   └── Makefile
+├── init_db.py
+├── installed_packages.txt
+├── instance
+├── LICENSE
+├── logger.py
+├── logs
+│   └── voiceguard.log
+├── Makefile
+├── migrations
+│   ├── __pycache__
+│   │   └── env.cpython-313.pyc
+│   ├── alembic.ini
+│   ├── env.py
+│   ├── README
+│   ├── script.py.mako
+│   └── versions
+│       ├── __pycache__
+│       ├── 4e60077d4731_adiciona_campo_two_factor_enabled_ao_.py
+│       ├── 51bc8ef54c2c_adiciona_campo_phone_number_ao_modelo_.py
+│       └── ad96ec1bde71_nova_migração_limpa_da_tabela_uploaded_.py
+├── models
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-313.pyc
+│   │   ├── file.cpython-313.pyc
+│   │   ├── uploaded_file.cpython-313.pyc
+│   │   └── user.cpython-313.pyc
+│   ├── file.py
+│   └── user.py
+├── project_tree.txt
+├── README.md
+├── requirements.txt
+├── routes
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-313.pyc
+│   │   ├── auth.cpython-313.pyc
+│   │   ├── files.cpython-313.pyc
+│   │   ├── health.cpython-313.pyc
+│   │   └── users.cpython-313.pyc
+│   ├── auth.py
+│   ├── files.py
+│   ├── health.py
+│   └── users.py
+├── run_tests.sh
+├── run.sh
+├── scripts
+│   ├── backup_ci.sh
+│   ├── backup_db.sh
+│   ├── check_db_connection.py
+│   ├── check_env.py
+│   ├── check_env.sh
+│   ├── create_test_user_with_phone.py
+│   ├── create_test_user.py
+│   ├── generate_migration_phone.py
+│   ├── healthcheck.sh
+│   ├── inspect_uploaded_file.py
+│   ├── log_test.py
+│   ├── restore_db.sh
+│   ├── run_migrations.py
+│   ├── run.sh
+│   ├── setup_db.sh
+│   ├── show_user_password_hash.py
+│   ├── test_env_jwt.py
+│   ├── test_insert_user.py
+│   ├── test_jwt_security.py
+│   └── test_uploaded_file.py
+├── services
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-313.pyc
+│   │   ├── security.cpython-313.pyc
+│   │   └── storage_provider.cpython-313.pyc
+│   ├── file_service.py
+│   ├── security.py
+│   ├── storage_provider.py
+│   └── user_service.py
+├── static
+│   └── favicon.ico
+├── storage.py
+├── test_magic.py
+├── teste.txt
+├── tests
+│   ├── test_auth_login.py
+│   ├── test_db_init.py
+│   └── test_user_model.py
+├── uploads
+│   └── 1e3fe50cc2e250489da5cb131d8a0edc1abfaa8fe4773697747df26d3509620a
+├── validate_yaml.py
+├── venv
+│   ├── bin
+│   │   ├── __pycache__
+│   │   ├── activate
+│   │   ├── activate.csh
+│   │   ├── activate.fish
+│   │   ├── Activate.ps1
+│   │   ├── alembic
+│   │   ├── dotenv
+│   │   ├── f2py
+│   │   ├── flask
+│   │   ├── fonttools
+│   │   ├── http
+│   │   ├── httpie
+│   │   ├── https
+│   │   ├── mako-render
+│   │   ├── markdown-it
+│   │   ├── normalizer
+│   │   ├── numpy-config
+│   │   ├── pip
+│   │   ├── pip3
+│   │   ├── pip3.13
+│   │   ├── pyftmerge
+│   │   ├── pyftsubset
+│   │   ├── pygmentize
+│   │   ├── python -> python3.13
+│   │   ├── python3 -> python3.13
+│   │   ├── python3.13 -> /opt/homebrew/opt/python@3.13/bin/python3.13
+│   │   ├── ttx
+│   │   ├── uvicorn
+│   │   ├── vba_extract.py
+│   │   ├── watchfiles
+│   │   └── websockets
+│   ├── include
+│   │   ├── python3.13
+│   │   └── site
+│   ├── lib
+│   │   └── python3.13
+│   ├── pyvenv.cfg
+│   └── share
+│       └── man
+└── voiceguard.zip
+
+35 directories, 142 files

@@ -1,0 +1,18 @@
+* 59f7832 (HEAD -> main, origin/main, origin/HEAD) 🔄 Atualiza múltiplos ficheiros: config, extensions, modelos, rotas e scripts
+* e3663b6 📚 Atualiza README com documentação detalhada da integração 2FA
+* 58482db 🚀 Adiciona workflows CI e deploy automático
+* 773e99a 📄 Adiciona relatório técnico da integração 2FA com backup e recomendações
+* 5bd12fd (tag: backup_pre_user_phone_2fa) 🧷 Backup antes de adicionar suporte a número de telemóvel e 2FA
+* 958a365 (tag: backup_pre_migracao_jwt_email) 🧷 Backup antes da migração JWT para user.id
+* 82bf7c8 📘 DOC: Adicionado bloco CI/CD com workflows e instruções
+* 5f1b809 🆕 CI: Adicionado workflow de backup simulado com upload de artefacto
+* ea73f42 ✅ CI: Adicionado workflow de validação de ambiente (.env e DB)
+* 1491255 ➕ CI: Adicionado script de backup ao repositório
+* f41586e 🔧 CI: Corrigido caminho e versão do upload-artifact para v4
+* 6be96b5 🔁 CI: Automação de backups via GitHub Actions
+* 1ee4578 Infraestrutura Docker, ambiente e .gitignore adicionados para escalabilidade
+*   09782dd ✅ Resolvido conflito no ficheiro LICENSE
+|\  
+| * 5257325 Initial commit
+* ccbb734 📄 Adicionada licença MIT ao projeto
+* 5edbb91 🚀 Estrutura inicial do projeto VoiceGuard com boas práticas
