@@ -12,6 +12,7 @@ from models.user import User
 from extensions import db
 from datetime import datetime, timedelta
 import random
+from services.security import limit_attempts
 
 users_bp = Blueprint('users', __name__)
 
@@ -25,11 +26,24 @@ def login():
         return jsonify({"msg": "Email e password são obrigatórios"}), 400
 
     user = User.query.filter_by(email=email).first()
-    if not user or not check_password_hash(user.password, password):
+    if not user:
         return jsonify({"msg": "Credenciais inválidas"}), 401
 
-    access_token = create_access_token(identity=str(user.id))
-    refresh_token = create_refresh_token(identity=str(user.id))
+    user_id = str(user.id)
+
+    # Verifica se usuário está bloqueado por tentativas excessivas
+    if limit_attempts.is_blocked(user_id):
+        return jsonify({"msg": "Conta bloqueada temporariamente devido a múltiplas tentativas falhadas. Tente mais tarde."}), 429
+
+    if not check_password_hash(user.password, password):
+        limit_attempts.increment_attempts(user_id)
+        return jsonify({"msg": "Credenciais inválidas"}), 401
+
+    # Reset contador após login bem-sucedido
+    limit_attempts.reset_attempts(user_id)
+
+    access_token = create_access_token(identity=user_id)
+    refresh_token = create_refresh_token(identity=user_id)
     return jsonify(access_token=access_token, refresh_token=refresh_token), 200
 
 @users_bp.route('/register', methods=['POST'])
@@ -56,7 +70,7 @@ def register():
 @jwt_required(refresh=True)
 def refresh():
     user_id = get_jwt_identity()
-    new_token = create_access_token(identity=str(user_id))
+    new_token = create_access_token(identity=user_id)
     return jsonify(access_token=new_token), 200
 
 @users_bp.route('/me', methods=['GET'])
@@ -99,8 +113,12 @@ def request_two_factor():
 @jwt_required()
 def verify_two_factor():
     user_id = get_jwt_identity()
-    user = User.query.get(int(user_id))
 
+    # Verifica se está bloqueado devido a tentativas falhadas
+    if limit_attempts.is_blocked(str(user_id)):
+        return jsonify({"msg": "Conta bloqueada temporariamente devido a múltiplas tentativas falhadas. Tente mais tarde."}), 429
+
+    user = User.query.get(int(user_id))
     if not user:
         return jsonify({"msg": "Utilizador não encontrado"}), 404
 
@@ -111,10 +129,14 @@ def verify_two_factor():
         return jsonify({"msg": "Código é obrigatório"}), 400
 
     if user.two_factor_code != code:
+        limit_attempts.increment_attempts(str(user_id))
         return jsonify({"msg": "Código inválido"}), 401
 
     if datetime.utcnow() > user.two_factor_expiration:
+        limit_attempts.increment_attempts(str(user_id))
         return jsonify({"msg": "Código expirado"}), 401
+
+    limit_attempts.reset_attempts(str(user_id))
 
     user.two_factor_code = None
     user.two_factor_expiration = None
